@@ -79,6 +79,15 @@ class Grid(size: Int) {
   
   def lineseparator = ("+-" + ("--"*block))*block + "+\n"
  
+  def parseFromString(string: String) {
+    reset
+    var list = string.toList.filter(char => ('0' to '9').contains(char))
+    for (row <- 0 until size; column <- 0 until size) {
+      set(column, row, list.head.toString.toInt,setGiven=true)
+      list = list.drop(1)
+    }
+  }
+  
   def createRandom(difficulty: Int) {
     reset
     var randomRow = 0
