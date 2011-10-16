@@ -1,7 +1,5 @@
 package de.htwg.sudoku.entities
 
-import scala.io.Source._
-
 object Sudoku {
 
   def main(args: Array[String]) {
