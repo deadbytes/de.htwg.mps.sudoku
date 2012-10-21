@@ -4,7 +4,7 @@ import scala.math.sqrt
 
 class Grid(size: Int) {
   require(List(1, 4, 9).contains(size))
-  val block = Math.sqrt(size).toInt
+  val block = sqrt(size).toInt
   val sr = sqrt(size).toInt
   var cells = Array.ofDim[Cell](size, size) 
 
@@ -90,13 +90,10 @@ class Grid(size: Int) {
   
   def createRandom(difficulty: Int) {
     reset
-    var randomRow = 0
-    var randomColumn = 0
-    var randomValue = 0
     for (i <- 0 to difficulty) {
-      randomRow = scala.util.Random.nextInt(size)
-      randomColumn = scala.util.Random.nextInt(size)
-      randomValue = scala.util.Random.nextInt(size) + 1
+      val randomRow = scala.util.Random.nextInt(size)
+      val randomColumn = scala.util.Random.nextInt(size)
+      val randomValue = scala.util.Random.nextInt(size) + 1
       set(randomRow, randomColumn, randomValue,setGiven=true)
     }
   }
