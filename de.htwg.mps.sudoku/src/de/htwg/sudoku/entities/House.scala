@@ -1,8 +1,10 @@
 package de.htwg.sudoku.entities
 
+import scala.math.sqrt
+
 class House(size: Int) {
   require(List(1, 4, 9).contains(size))
-  val block = Math.sqrt(size)
+  val block = sqrt(size)
   val cells=new Array[Cell](size)
   
   for (index <- 0 until size) {
