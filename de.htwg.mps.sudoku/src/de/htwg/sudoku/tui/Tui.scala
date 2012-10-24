@@ -1,19 +1,19 @@
-package de.htwg.sudoku.entities
+package de.htwg.sudoku.tui
 
+import de.htwg.sudoku.entities.Grid
 import scala.io.Source._
 
-object Sudoku {
+class Tui(var grid: Grid) {
+  var input = ""
 
-  def main(args: Array[String]) {
-    var input = ""
-    var grid = new Grid(9)
-
-    while (true) {
+  def parse = {
+    var continue=true
+    while (continue) {
       println(grid.toString)
       println("Enter command: q-Quit s-Solve n-New e,m,h-Load easy middle or hard, r-Random 1,4,9-Set Size, xy-Read Cell, xyz-Set Cell")
       input = readLine()
       input match {
-        case "q" => return
+        case "q" => continue=false
         case "s" => grid.solve
         case "n" => grid.reset
         case "e" => grid.parseFromString(fromFile("resources/sudoku_easy.txt").mkString)
@@ -37,4 +37,5 @@ object Sudoku {
       }
     }
   }
+
 }

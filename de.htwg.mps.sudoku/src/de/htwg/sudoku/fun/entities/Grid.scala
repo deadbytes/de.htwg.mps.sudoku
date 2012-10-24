@@ -1,32 +1,31 @@
-package de.htwg.sudoku.entities
+package de.htwg.sudoku.fun.entities
 
 import scala.math.sqrt
-import scala.collection.Iterator
 
-class SCell(val value: Int, given: Boolean = false, showCandidates: Boolean = false) {
+class Cell(val value: Int, given: Boolean = false, showCandidates: Boolean = false) {
   def ==(v: Int) = if (value == v) true else false
   def isSet = value != 0
   override def toString = value.toString.replace('0', '.')
 }
 
-class SHouse(cs: Vector[SCell]) {
+class House(cs: Vector[Cell]) {
   def cells(index: Int) = cs(index)
   override def toString = cs.mkString
   def toSet = cs.map(c => c.value).toSet
 }
 
-class SGrid(cells: Vector[SCell]) {
-  def this(blocksize:Int) = this(Vector.fill(blocksize*blocksize)(new SCell(0)))
+class SGrid(cells: Vector[Cell]) {
+  def this(blocksize:Int) = this(Vector.fill(blocksize*blocksize)(new Cell(0)))
 
   val size = sqrt(cells.size).toInt
   val blocknum = sqrt(size).toInt
   def blockAt(row: Int, col: Int) = (col / blocknum) + (row / blocknum) * blocknum
   def indexToRowCol(index: Int) = { val r = index / size; val c = index % size; (r, c) }
   def cell(row: Int, col: Int) = rows(row).cells(col)
-  def rows(row: Int) = new SHouse(cells.slice(size * row, size * (row + 1)))
-  def cols(col: Int) = new SHouse((for (row <- 0 until size) yield cell(row, col)).asInstanceOf[Vector[SCell]])
-  def blocks(block: Int) = new SHouse((for (row <- 0 until (size); col <- 0 until size; if blockAt(row, col) == block) yield cell(row, col)).asInstanceOf[Vector[SCell]])
-  def set(row: Int, col: Int, value: Int) = new SGrid(cells.updated(size * row + col, new SCell(value)))
+  def rows(row: Int) = new House(cells.slice(size * row, size * (row + 1)))
+  def cols(col: Int) = new House((for (row <- 0 until size) yield cell(row, col)).asInstanceOf[Vector[Cell]])
+  def blocks(block: Int) = new House((for (row <- 0 until (size); col <- 0 until size; if blockAt(row, col) == block) yield cell(row, col)).asInstanceOf[Vector[Cell]])
+  def set(row: Int, col: Int, value: Int) = new SGrid(cells.updated(size * row + col, new Cell(value)))
   def available(row: Int, col: Int) = if (cell(row, col).isSet) Set.empty else (1 to size).toSet -- rows(row).toSet -- cols(col).toSet -- blocks(blockAt(row, col)).toSet
   def options = for (row <- 0 until size; col <- 0 until size) yield available(row, col)
   override def toString = {
