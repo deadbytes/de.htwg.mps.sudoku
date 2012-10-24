@@ -14,7 +14,7 @@ class House(cs: Vector[Cell]) {
   def toSet = cs.map(c => c.value).toSet
 }
 
-class SGrid(cells: Vector[Cell]) {
+class Grid(cells: Vector[Cell]) {
   def this(blocksize:Int) = this(Vector.fill(blocksize*blocksize)(new Cell(0)))
 
   val size = sqrt(cells.size).toInt
@@ -25,7 +25,7 @@ class SGrid(cells: Vector[Cell]) {
   def rows(row: Int) = new House(cells.slice(size * row, size * (row + 1)))
   def cols(col: Int) = new House((for (row <- 0 until size) yield cell(row, col)).asInstanceOf[Vector[Cell]])
   def blocks(block: Int) = new House((for (row <- 0 until (size); col <- 0 until size; if blockAt(row, col) == block) yield cell(row, col)).asInstanceOf[Vector[Cell]])
-  def set(row: Int, col: Int, value: Int) = new SGrid(cells.updated(size * row + col, new Cell(value)))
+  def set(row: Int, col: Int, value: Int) = new Grid(cells.updated(size * row + col, new Cell(value)))
   def available(row: Int, col: Int) = if (cell(row, col).isSet) Set.empty else (1 to size).toSet -- rows(row).toSet -- cols(col).toSet -- blocks(blockAt(row, col)).toSet
   def options = for (row <- 0 until size; col <- 0 until size) yield available(row, col)
   override def toString = {
@@ -40,12 +40,12 @@ class SGrid(cells: Vector[Cell]) {
 
   def solved = cells.forall(cell => cell.isSet)
   def unsolvable = options.isEmpty
-  def solve: Pair[Boolean, SGrid] = solve(0)
-  def solve(index: Int): Pair[Boolean, SGrid] = {
+  def solve:  Grid = solve(0)._2
+  def solve(index: Int): Pair[Boolean, Grid] = {
     if (index==size*size) {if (solved) (true, this) else (false, this)}  else if (unsolvable) (false, this) else {
       val (row, col) = indexToRowCol(index)
       val iter = available(row, col).iterator
-      var res: Pair[Boolean, SGrid] = (false, this)
+      var res: Pair[Boolean, Grid] = (false, this)
       if (iter.hasNext) {
         for (v <- iter) {
           res = set(row, col, v).solve(index + 1)
