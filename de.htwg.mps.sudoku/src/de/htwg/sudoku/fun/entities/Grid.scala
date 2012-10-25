@@ -13,6 +13,7 @@ class House(cs: Vector[Cell]) {
   def cells(index: Int) = cs(index)
   override def toString = cs.mkString
   def toSet = cs.map(c => c.value).toSet
+  def valid = cs.toList -- toSet.toList == List.empty
 }
 
 class Grid(cells: Vector[Cell]) {
@@ -24,12 +25,16 @@ class Grid(cells: Vector[Cell]) {
   def indexToRowCol(index: Int) = { val r = index / size; val c = index % size; (r, c) }
   def cell(row: Int, col: Int) = rows(row).cells(col)
   def rows(row: Int) = new House(cells.slice(size * row, size * (row + 1)))
+  def allrows = (0 until size).map(i => rows(i))
   def cols(col: Int) = new House((for (row <- 0 until size) yield cell(row, col)).asInstanceOf[Vector[Cell]])
+  def allcols = (0 until size).map(i => cols(i))
   def blocks(block: Int) = new House((for (row <- 0 until (size); col <- 0 until size; if blockAt(row, col) == block) yield cell(row, col)).asInstanceOf[Vector[Cell]])
+  def allblocks = (0 until size).map(i => blocks(i))
   def set(row: Int, col: Int, value: Int) = new Grid(cells.updated(size * row + col, new Cell(value)))
   def unset(row: Int, col: Int) = set(row, col, 0)
   def available(row: Int, col: Int) = if (cell(row, col).isSet) Set.empty else (1 to size).toSet -- rows(row).toSet -- cols(col).toSet -- blocks(blockAt(row, col)).toSet
   def options = for (row <- 0 until size; col <- 0 until size) yield available(row, col)
+  def valid = allrows.forall(house => house.valid) && allcols.forall(house => house.valid) && allblocks.forall(house => house.valid)
   override def toString = {
     val lineseparator = ("+-" + ("--" * blocknum)) * blocknum + "+\n"
     val line = ("| " + ("x " * blocknum)) * blocknum + "|\n"
@@ -41,38 +46,55 @@ class Grid(cells: Vector[Cell]) {
   }
   def reset = new Grid(size);
   def createRandom(num: Int): Grid = num match {
-    case 0 => setRandom
+    case 1 => setRandom
     case _ => setRandom.createRandom(num - 1)
   }
   def setRandom = {
     val r = Random.nextInt(size)
     val c = Random.nextInt(size)
-    val avail = available(r, c)
+    val avail = available(r, c).toIndexedSeq
     val numAvail = avail.size
     if (numAvail > 0) {
-      val v = avail.toIndexedSeq.apply(1)
+      val v = avail(Random.nextInt(numAvail))
       set(r, c, v)
     } else this
 
   }
   def solved = cells.forall(cell => cell.isSet)
   def unsolvable = options.isEmpty
-  def solve: Grid = solve(0)._2
+  def solve: Pair[Boolean, Grid] = { Grid.steps = 0; solve(0) }
   def solve(index: Int): Pair[Boolean, Grid] = {
+    Grid.steps += 1
+    if (Grid.steps % 1000 == 0) print(".")
+    if (Grid.steps % 100000 == 0) println
     if (solved) return (true, this) else if (unsolvable) return (false, this) else {
       val (row, col) = indexToRowCol(index)
       if (cell(row, col).isSet) return solve(index + 1) else {
-        val iter = available(row, col).iterator
+        val iter = Random.shuffle(available(row, col).toList).iterator
         var res: Pair[Boolean, Grid] = (false, this)
         if (iter.hasNext) {
           for (v <- iter) {
             res = set(row, col, v).solve(index + 1)
             if (res._1 == true) return res
           }
-        } 
+        }
         return res
       }
     }
   }
+  def parseFromString(string: String) = {
 
+    val listChar = string.toList.filter(char => ('0' to '9').contains(char))
+    var listInt = listChar.map(c => c.toString.toInt)
+    var g = new Grid(sqrt(listInt.size).toInt)
+    for (r <- 0 until this.size; c <- 0 until this.size) {
+      val v = listInt.head
+      g = g.set(r, c, v)
+      listInt = listInt.drop(1)
+    }
+    g
+  }
+}
+object Grid {
+  var steps = 0
 }
