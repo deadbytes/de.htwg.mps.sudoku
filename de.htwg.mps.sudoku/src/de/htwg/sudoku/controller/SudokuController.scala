@@ -6,6 +6,14 @@ import de.htwg.sudoku.model.fun.Grid
 class SudokuController(var grid: Grid) extends Observable {
   def available(row: Int, col: Int) = grid.available(row, col)
   def cell(row: Int, col: Int) = grid.cell(row, col)
+  def createRandom={
+    grid = grid.createRandom(grid.size)
+    notifyObservers
+  }
+  def parseFromString(s:String) = {
+    grid = grid.parseFromString(s)
+    notifyObservers
+  }
   def reset = {
     grid = grid.reset
     notifyObservers
@@ -24,5 +32,6 @@ class SudokuController(var grid: Grid) extends Observable {
     notifyObservers
     (success, Grid.steps)
   }
+  def valid = grid.valid
 
 }
