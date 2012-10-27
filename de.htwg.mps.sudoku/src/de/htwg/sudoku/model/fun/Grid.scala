@@ -17,36 +17,38 @@ class Grid(cells: Vector[Cell]) {
   def allcols = (0 until size).map(i => cols(i))
   def blocks(block: Int) = new House((for (row <- 0 until (size); col <- 0 until size; if blockAt(row, col) == block) yield cell(row, col)).asInstanceOf[Vector[Cell]])
   def allblocks = (0 until size).map(i => blocks(i))
-  def set(row: Int, col: Int, value: Int) = new Grid(cells.updated(size * row + col, new Cell(value)))
-  def unset(row: Int, col: Int) = set(row, col, 0)
-  def available(row: Int, col: Int) = if (cell(row, col).isSet) Set.empty else (1 to size).toSet -- rows(row).toSet -- cols(col).toSet -- blocks(blockAt(row, col)).toSet
+  def set(row: Int, col: Int, value: Int):Grid = new Grid(cells.updated(size * row + col, new Cell(value)))
+  def unset(row: Int, col: Int):Grid = set(row, col, 0)
+  def available(row: Int, col: Int):Set[Int] = if (cell(row, col).isSet) Set.empty else (1 to size).toSet -- rows(row).toIntSet -- cols(col).toIntSet -- blocks(blockAt(row, col)).toIntSet
   def options = for (row <- 0 until size; col <- 0 until size) yield available(row, col)
   def valid = allrows.forall(house => house.valid) && allcols.forall(house => house.valid) && allblocks.forall(house => house.valid)
   override def toString = {
     val lineseparator = ("+-" + ("--" * blocknum)) * blocknum + "+\n"
     val line = ("| " + ("x " * blocknum)) * blocknum + "|\n"
-    var box = " \n" + (lineseparator + (line * blocknum)) * blocknum + lineseparator
+    var box = "\n" + (lineseparator + (line * blocknum)) * blocknum + lineseparator
     for (row <- 0 until size; col <- 0 until size) {
       (box = box.replaceFirst("x", cell(row, col).toString))
     }
     box
   }
   def reset = new Grid(size);
-  def createRandom(num: Int): Grid = num match {
-    case 1 => setRandom
-    case _ => setRandom.createRandom(num - 1)
+  def createRandom(num: Int): Grid = {
+    def setRandom = {
+      val r = Random.nextInt(size)
+      val c = Random.nextInt(size)
+      val avail = available(r, c).toIndexedSeq
+      val numAvail = avail.size
+      if (numAvail > 0) {
+        val v = avail(Random.nextInt(numAvail))
+        set(r, c, v)
+      } else this 
+    }
+    num match {
+      case 1 => setRandom
+      case _ => setRandom.createRandom(num - 1)
+    }
   }
-  def setRandom = {
-    val r = Random.nextInt(size)
-    val c = Random.nextInt(size)
-    val avail = available(r, c).toIndexedSeq
-    val numAvail = avail.size
-    if (numAvail > 0) {
-      val v = avail(Random.nextInt(numAvail))
-      set(r, c, v)
-    } else this
 
-  }
   def solved = cells.forall(cell => cell.isSet)
   def unsolvable = options.isEmpty
   def solve: Pair[Boolean, Grid] = { Grid.steps = 0; solve(0) }
