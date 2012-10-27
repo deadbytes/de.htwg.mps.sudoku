@@ -1,15 +1,14 @@
 package de.htwg.sudoku
 
-
 import de.htwg.sudoku.model.fun.Grid
+import de.htwg.sudoku.controller.SudokuController
 import de.htwg.sudoku.aview.tui.Tui
 
 object Sudoku {
 
   def main(args: Array[String]) {
-
-    var grid = new Grid(9)
-    new Tui(grid).parse
-
+    val tui=new Tui(new SudokuController(new Grid(9)))
+    while(tui.processInputLine(readLine())){}
   }
+
 }
