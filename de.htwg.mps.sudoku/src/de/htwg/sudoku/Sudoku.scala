@@ -1,8 +1,8 @@
 package de.htwg.sudoku
 
 
-import de.htwg.sudoku.fun.entities.Grid
-import de.htwg.sudoku.tui.Tui
+import de.htwg.sudoku.model.fun.Grid
+import de.htwg.sudoku.aview.tui.Tui
 
 object Sudoku {
 

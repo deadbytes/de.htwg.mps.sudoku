@@ -1,20 +1,7 @@
-package de.htwg.sudoku.fun.entities
+package de.htwg.sudoku.model.fun
 
 import scala.math.sqrt
 import scala.util.Random
-
-class Cell(val value: Int, given: Boolean = false, showCandidates: Boolean = false) {
-  def ==(v: Int) = if (value == v) true else false
-  def isSet = value != 0
-  override def toString = value.toString.replace('0', '.')
-}
-
-class House(cs: Vector[Cell]) {
-  def cells(index: Int) = cs(index)
-  override def toString = cs.mkString
-  def toSet = cs.map(c => c.value).toSet
-  def valid = cs.toList -- toSet.toList == List.empty
-}
 
 class Grid(cells: Vector[Cell]) {
   def this(blocksize: Int) = this(Vector.fill(blocksize * blocksize)(new Cell(0)))

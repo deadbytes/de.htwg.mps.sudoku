@@ -1,6 +1,6 @@
-package de.htwg.sudoku.tui
+package de.htwg.sudoku.aview.tui
 
-import de.htwg.sudoku.fun.entities.Grid
+import de.htwg.sudoku.model.fun.Grid
 import scala.io.Source._
 
 class Tui(var grid: Grid) {

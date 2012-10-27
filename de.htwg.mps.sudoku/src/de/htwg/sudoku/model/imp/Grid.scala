@@ -1,4 +1,4 @@
-package de.htwg.sudoku.entities
+package de.htwg.sudoku.model.imp
 
 import scala.math.sqrt 
 
