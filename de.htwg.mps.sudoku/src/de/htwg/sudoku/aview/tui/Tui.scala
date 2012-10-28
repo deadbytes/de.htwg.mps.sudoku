@@ -2,13 +2,20 @@ package de.htwg.sudoku.aview.tui
 
 import de.htwg.sudoku.model.fun.Grid
 import de.htwg.sudoku.controller.SudokuController
+import de.htwg.sudoku.controller.CellChanged
+import de.htwg.sudoku.controller.GridSizeChanged
 import de.htwg.util.Observable
 import de.htwg.util.Observer
 import scala.io.Source._
+import swing._
 
-class Tui(var controller: SudokuController) extends Observer {
-  controller.add(this)
+class Tui(var controller: SudokuController) extends Reactor {
+  listenTo(controller)
   printTui
+    reactions += {
+    case e: GridSizeChanged => printTui
+    case e: CellChanged => printTui
+  }
   def update = printTui
   def printTui = {
     println(controller.grid.toString)

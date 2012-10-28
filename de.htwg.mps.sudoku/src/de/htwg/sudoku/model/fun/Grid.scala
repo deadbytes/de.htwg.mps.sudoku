@@ -22,6 +22,16 @@ class Grid(cells: Vector[Cell]) {
   def available(row: Int, col: Int):Set[Int] = if (cell(row, col).isSet) Set.empty else (1 to size).toSet -- rows(row).toIntSet -- cols(col).toIntSet -- blocks(blockAt(row, col)).toIntSet
   def options = for (row <- 0 until size; col <- 0 until size) yield available(row, col)
   def valid = allrows.forall(house => house.valid) && allcols.forall(house => house.valid) && allblocks.forall(house => house.valid)
+  def highlight(index:Int) = {
+    for (row <- 0 until size; col<- 0 until size){
+      if (available(row,col).contains(index)) cell(row,col).highlight else cell(row,col).unhighlight
+    } 
+  }
+  def setGiven = {
+    for (row <- 0 until size; col<- 0 until size){
+      if (cell(row,col).isSet) cell(row,col).given else cell(row,col).notGiven
+    } 
+  }
   override def toString = {
     val lineseparator = ("+-" + ("--" * blocknum)) * blocknum + "+\n"
     val line = ("| " + ("x " * blocknum)) * blocknum + "|\n"

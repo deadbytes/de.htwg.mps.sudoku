@@ -14,16 +14,18 @@ class CellSpec extends SpecificationWithJUnit {
       cell.isSet must beFalse
     }
     
-    "not be given" in {
-      cell.given must beFalse
+    "not be given even if set to given" in {
+      cell.isGiven must beFalse
+      cell.given
+      cell.isGiven must beFalse
     }
 
     "not show their Candidates" in {
       cell.showCandidates must beFalse
     }
     
-    "generate a String of the form '.'" in {
-      cell.toString must be_==(".")
+    "generate a String of the form ' '" in {
+      cell.toString must be_==(" ")
     }
 
     "equal 0" in {
@@ -42,8 +44,10 @@ class CellSpec extends SpecificationWithJUnit {
       cell.isSet must beTrue
     }
     
-    "not be given" in {
-      cell.given must beFalse
+    "not be given until set to given" in {
+      cell.isGiven must beFalse
+      cell.given
+      cell.isGiven must beTrue
     }
 
     "not show their Candidates" in {

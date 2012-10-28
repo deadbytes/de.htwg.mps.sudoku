@@ -19,8 +19,8 @@ class HouseSpec extends SpecificationWithJUnit {
     "be valid" in {
       house.valid must beTrue
     }
-    "produce an String ." in {
-      house.toString must be_==(".")
+    "produce an String ' '" in {
+      house.toString must be_==(" ")
     }
   }
 

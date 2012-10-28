@@ -28,10 +28,15 @@ class GridSpec extends SpecificationWithJUnit {
     }
     "generate a String of the form\n" +
       "+---+\n" +
-      "| . |\n" +
+      "|   |\n" +
       "+---+\n" in {
-        grid1.toString must be_==("\n+---+\n| . |\n+---+\n")
+        grid1.toString must be_==("\n+---+\n|   |\n+---+\n")
       }
+    "highlight its cell" in {
+      cell0.highlighted must beFalse
+      grid1.highlight(1)
+      cell0.highlighted must beTrue
+    }
   }
   "A new Grid with 1 filled Cell" should {
     val cell0 = new Cell(1)
@@ -104,7 +109,13 @@ class GridSpec extends SpecificationWithJUnit {
     "solve with Cells created by Random" in {
       grid4.createRandom(4).solve._2.solved must beTrue
     }
-    
   }
+  "A Grid with Cells that require backtracking to solve" should {
+     var reqBacktrack = new Grid(4).set(0,0,4).set(0,1,3).set(0,2,2).set(0,3,1).set(1,0,2).set(1,1,1).set(1,3,4).set(3,3,3)
+     "solve" in {
+       reqBacktrack.solve._2.solved must beTrue
+     }
+  }  
+
 
 }
