@@ -3,10 +3,11 @@ object functional {
   //Functions
   def f(x: Int) = x + 1                           //> f: (x: Int)Int
   f(5)                                            //> res0: Int = 6
+  f{5}                                            //> res1: Int = 6
 
   //Anonymous Functions or Function literals
 
-  (x: Int) => x + 1                               //> res1: Int => Int = <function1>
+  (x: Int) => x + 1                               //> res2: Int => Int = <function1>
 
   //Syntactic sugar
   val numbers = List(1, 2, 3, 4, 5)               //> numbers  : List[Int] = List(1, 2, 3, 4, 5)
@@ -24,15 +25,15 @@ object functional {
   numbers.foreach(f)
   numbers foreach f
 
-  numbers.map(x => f(x))                          //> res2: List[Int] = List(2, 3, 4, 5, 6)
+  numbers.map(x => f(x))                          //> res3: List[Int] = List(2, 3, 4, 5, 6)
 
-  numbers.filter(x => x > 3)                      //> res3: List[Int] = List(4, 5)
+  numbers.filter(x => x > 3)                      //> res4: List[Int] = List(4, 5)
 
-  numbers.map(x => x + 1)                         //> res4: List[Int] = List(2, 3, 4, 5, 6)
+  numbers.map(x => x + 1)                         //> res5: List[Int] = List(2, 3, 4, 5, 6)
 
-  numbers.filter(_ > 3)                           //> res5: List[Int] = List(4, 5)
+  numbers.filter(_ > 3)                           //> res6: List[Int] = List(4, 5)
 
-  numbers.map(_ + 1)                              //> res6: List[Int] = List(2, 3, 4, 5, 6)
+  numbers.map(_ + 1)                              //> res7: List[Int] = List(2, 3, 4, 5, 6)
 
   // Fun with higher order functions
   List(-10, -5, 0, 5, 10)
@@ -65,7 +66,7 @@ object functional {
       res
     }
   }                                               //> fib_imp: (n: Int)Int
-  fib_imp(8)                                      //> res7: Int = 21
+  fib_imp(8)                                      //> res8: Int = 21
 
   // A function functional style
   def fib_fun(x: Int): Int = x match {
@@ -74,7 +75,7 @@ object functional {
     case _ => fib_fun(x - 2) + fib_fun(x - 1)
   }                                               //> fib_fun: (x: Int)Int
 
-  fib_fun(8)                                      //> res8: Int = 21
+  fib_fun(8)                                      //> res9: Int = 21
 
   // A function imperative style
   def isPrime_imp(n: Int): Boolean = {
@@ -84,41 +85,49 @@ object functional {
     true
   }                                               //> isPrime_imp: (n: Int)Boolean
 
-  isPrime_imp(31)                                 //> res9: Boolean = true
+  isPrime_imp(31)                                 //> res10: Boolean = true
 
   // A function functional style
   def isPrime(n: Int) =
     2 until n forall { n % _ != 0 }               //> isPrime: (n: Int)Boolean
 
-  isPrime(31)                                     //> res10: Boolean = true
+  isPrime(31)                                     //> res11: Boolean = true
 
   //Closures
   //A closed term is a function without free variables
-  def g1(x: Int) = x + 1                          //> g1: (x: Int)Int
+  def f1(x: Int) = x + 1                          //> f1: (x: Int)Int
 
   //An open term is a function with free variables
   var c = 1                                       //> c  : Int = 1
-  def g2(x: Int) = x + c                          //> g2: (x: Int)Int
+  def f2(x: Int) = x + c                          //> f2: (x: Int)Int
   // A closure is the function value of the open term, thus a closure closes the open term at runtime, by capturing the bindings of its free variables
-  g2(5)                                           //> res11: Int = 6
+  f2(5)                                           //> res12: Int = 6
   c = 10
-  g2(5)                                           //> res12: Int = 15
+  f2(5)                                           //> res13: Int = 15
 
   //Currying
 
-  def g3(c: Int) = (x: Int) => x + c              //> g3: (c: Int)Int => Int
-  g3(1)(5)                                        //> res13: Int = 6
-  g3(10)(5)                                       //> res14: Int = 15
-  g3(10) { 5 }                                    //> res15: Int = 15
-  g3(10) {
+  def f3(c: Int) = (x: Int) => x + c              //> f3: (c: Int)Int => Int
+  f3(1)(5)                                        //> res14: Int = 6
+  f3(10)(5)                                       //> res15: Int = 15
+  f3(10) { 5 }                                    //> res16: Int = 15
+  f3(10) {
     val z = 4
     f(z)
-  }                                               //> res16: Int = 15
+  }                                               //> res17: Int = 15
 
   // partially applied functions
-  def g4 = g3(10)                                 //> g4: => Int => Int
+  def f4 = f3(10)                                 //> f4: => Int => Int
 
-  g4(5)                                           //> res17: Int = 15
+  f4(5)                                           //> res18: Int = 15
+  
+  def f5(op:(Int, Int)=>Int) (x:Int, y:Int) = {
+     op(x,y)
+  }                                               //> f5: (op: (Int, Int) => Int)(x: Int, y: Int)Int
+  def add(x:Int, y:Int) = x + y                   //> add: (x: Int, y: Int)Int
+  f5(add) (5,1)                                   //> res19: Int = 6
+  def f6 = f5(add) _                              //> f6: => (Int, Int) => Int
+  f6(5,1)                                         //> res20: Int = 6
 
   // A practical example: msort
 
@@ -140,16 +149,16 @@ object functional {
   }                                               //> msort: [T](less: (T, T) => Boolean)(xs: List[T])List[T]
 
   def intsort = msort((x: Int, y: Int) => x < y) _//> intsort: => List[Int] => List[Int]
-  intsort(List(9, 2, 5, 7, 3, 8))                 //> res18: List[Int] = List(2, 3, 5, 7, 8, 9)
+  intsort(List(9, 2, 5, 7, 3, 8))                 //> res21: List[Int] = List(2, 3, 5, 7, 8, 9)
 
   def reverseintsort = msort((x: Int, y: Int) => x > y) _
                                                   //> reverseintsort: => List[Int] => List[Int]
-  reverseintsort(List(9, 2, 5, 7, 3, 8))          //> res19: List[Int] = List(9, 8, 7, 5, 3, 2)
+  reverseintsort(List(9, 2, 5, 7, 3, 8))          //> res22: List[Int] = List(9, 8, 7, 5, 3, 2)
 
   def stringsort = msort((s1: String, s2: String) => s1.length < s2.length) _
                                                   //> stringsort: => List[String] => List[String]
   stringsort(List("coffee", "tee", "beer", "orangejuice"))
-                                                  //> res20: List[String] = List(tee, beer, coffee, orangejuice)
+                                                  //> res23: List[String] = List(tee, beer, coffee, orangejuice)
 
   //reduceLeft, foldLeft
 
@@ -157,13 +166,13 @@ object functional {
   class IntStringPair(val int: Int, val string: String)
 
   val pair1 = new IntStringPair(78462, "Konstanz")//> pair1  : functional.IntStringPair = functional$$anonfun$main$1$IntStringPai
-                                                  //| r$1@418c56d
+                                                  //| r$1@58ecb281
   val int = pair1.int                             //> int  : Int = 78462
   val string = pair1.string                       //> string  : String = Konstanz
 
   class Pair(val _1: Any, val _2: Any)
 
-  val pair2 = new Pair(78462, "Konstanz")         //> pair2  : functional.Pair = functional$$anonfun$main$1$Pair$1@51b48197
+  val pair2 = new Pair(78462, "Konstanz")         //> pair2  : functional.Pair = functional$$anonfun$main$1$Pair$1@2acdb06e
   val first = pair2._1                            //> first  : Any = 78462
   val second = pair2._2                           //> second  : Any = Konstanz
 
@@ -183,18 +192,18 @@ object functional {
     def ->(value: String) = new Pair(key, value)
   }
 
-  val zip = new Key(78462)                        //> zip  : functional.Key = functional$$anonfun$main$1$Key$1@3d9360e2
+  val zip = new Key(78462)                        //> zip  : functional.Key = functional$$anonfun$main$1$Key$1@266bade9
   val city = "Konstanz"                           //> city  : java.lang.String = Konstanz
-  val pair5 = zip -> city                         //> pair5  : functional.Pair = functional$$anonfun$main$1$Pair$1@16bdb503
-  pair5._1                                        //> res21: Any = 78462
-  pair5._2                                        //> res22: Any = Konstanz
+  val pair5 = zip -> city                         //> pair5  : functional.Pair = functional$$anonfun$main$1$Pair$1@6766afb3
+  pair5._1                                        //> res24: Any = 78462
+  pair5._2                                        //> res25: Any = Konstanz
 
   val pair6 = 78462 -> "Konstanz"                 //> pair6  : (Int, java.lang.String) = (78462,Konstanz)
 
   val (key, value) = 78462 -> "Konstanz"          //> key  : Int = 78462
                                                   //| value  : java.lang.String = Konstanz
-  key                                             //> res23: Int = 78462
-  value                                           //> res24: java.lang.String = Konstanz
+  key                                             //> res26: Int = 78462
+  value                                           //> res27: java.lang.String = Konstanz
 
   val list = for (i <- 1 to 5) yield i            //> list  : scala.collection.immutable.IndexedSeq[Int] = Vector(1, 2, 3, 4, 5)
 }
