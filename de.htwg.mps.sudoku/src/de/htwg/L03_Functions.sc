@@ -28,5 +28,16 @@ object L03_Functions {
   
   // TODO Write a function that generates a list
   // of all primes between two given numbers
+  
+  def primes(min:Int, max:Int) = {
+  	var sieve = (2 to max).toList
+  	for(i <- 2 to max/2; j <- 2 to i) sieve = sieve - i*j
+  	//sieve.dropWhile(i=>i<min)
+  	while (sieve.head < min) {sieve = sieve.tail}
+  	sieve
+  }                                               //> primes: (min: Int, max: Int)List[Int]
+  
+  primes(12, 40)                                  //> res2: List[Int] = List(13, 17, 19, 23, 29, 31, 37)
+  
 
 }

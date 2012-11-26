@@ -27,6 +27,7 @@ object L01_Expressions {
   
   // TODO Calculate the width of a HD 1080 resolution
   // It has a hight of 1080 and a ratio of 16:9
+  val width_HD1080 = 1080*16/9                    //> width_HD1080  : Int = 1920
 
   // Bit operations
   3 & 2 // logical and                            //> res6: Int(2) = 2
@@ -57,17 +58,22 @@ object L01_Expressions {
   
   // TODO Develop an if-expression that can distinguish
   // between SXGA(1280x1024), HD 720(16:9) and a HD 1080(16:9) resolution based on width, height and ratio
-
+val h = 1080                                      //> h  : Int = 1080
+val w = 1080*16/9                                 //> w  : Int = 1920
+if (w == 1280 && h == 1024) "SXGA" else
+	if (h == 1080 && w == 1080*16/9) "HD 1080" else
+		if (h ==720 && w == 720*16/9) "HD 720" else
+			"unknown"                 //> res24: java.lang.String = HD 1080
   // Loops
   var total1 = 18                                 //> total1  : Int = 18
   while (total1 < 17) total1 += 3
-  total1                                          //> res24: Int = 18
+  total1                                          //> res25: Int = 18
 
   var total2 = 18                                 //> total2  : Int = 18
   do {
     total2 += 3
   } while (total2 < 17)
-  total2                                          //> res25: Int = 21
+  total2                                          //> res26: Int = 21
 
   // find the greatest common divisor
   var x = 36                                      //> x  : Int = 36
@@ -111,4 +117,15 @@ object L01_Expressions {
 // 77777778
 // 88888888
 
+for (i <-1 to 8; j <- 1 to 8) {
+	print( if (i>j) i else j)
+  if (j== 8) println
+}                                                 //> 12345678
+                                                  //| 22345678
+                                                  //| 33345678
+                                                  //| 44445678
+                                                  //| 55555678
+                                                  //| 66666678
+                                                  //| 77777778
+                                                  //| 88888888
 }
