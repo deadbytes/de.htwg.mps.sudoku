@@ -161,18 +161,40 @@ object functional {
                                                   //> res23: List[String] = List(tee, beer, coffee, orangejuice)
 
   //reduceLeft, foldLeft
+  def sum(list:List[Int]):Int = list match {
+    case Nil => 0
+    case _ => list.head + sum(list.tail)
+  }                                               //> sum: (list: List[Int])Int
+  
+  
+  sum(List(1,2,3,4,5))                            //> res24: Int = 15
+  
+  def product(list:List[Int]):Int = list match {
+    case Nil => 1
+    case _ => list.head + product(list.tail)
+  }                                               //> product: (list: List[Int])Int
+  product(List(1,2,3,4,5))                        //> res25: Int = 16
+  
+  def sum2(list:List[Int])=list.foldLeft(0)(_+_)  //> sum2: (list: List[Int])Int
+  sum2(List(1,2,3,4,5))                           //> res26: Int = 15
+  List(1,2,3,4,5).foldLeft(0)(_+_)                //> res27: Int = 15
+  
+  def product2(list:List[Int])=list.foldLeft(1)(_*_)
+                                                  //> product2: (list: List[Int])Int
+  product2(List(1,2,3,4,5))                       //> res28: Int = 120
+  List(1,2,3,4,5).foldLeft(1)(_*_)                //> res29: Int = 120
 
   //Tuples
   class IntStringPair(val int: Int, val string: String)
 
   val pair1 = new IntStringPair(78462, "Konstanz")//> pair1  : functional.IntStringPair = functional$$anonfun$main$1$IntStringPai
-                                                  //| r$1@58ecb281
+                                                  //| r$1@47315d34
   val int = pair1.int                             //> int  : Int = 78462
   val string = pair1.string                       //> string  : String = Konstanz
 
   class Pair(val _1: Any, val _2: Any)
 
-  val pair2 = new Pair(78462, "Konstanz")         //> pair2  : functional.Pair = functional$$anonfun$main$1$Pair$1@2acdb06e
+  val pair2 = new Pair(78462, "Konstanz")         //> pair2  : functional.Pair = functional$$anonfun$main$1$Pair$1@676bd8ea
   val first = pair2._1                            //> first  : Any = 78462
   val second = pair2._2                           //> second  : Any = Konstanz
 
@@ -192,18 +214,18 @@ object functional {
     def ->(value: String) = new Pair(key, value)
   }
 
-  val zip = new Key(78462)                        //> zip  : functional.Key = functional$$anonfun$main$1$Key$1@266bade9
+  val zip = new Key(78462)                        //> zip  : functional.Key = functional$$anonfun$main$1$Key$1@2b2d96f2
   val city = "Konstanz"                           //> city  : java.lang.String = Konstanz
-  val pair5 = zip -> city                         //> pair5  : functional.Pair = functional$$anonfun$main$1$Pair$1@6766afb3
-  pair5._1                                        //> res24: Any = 78462
-  pair5._2                                        //> res25: Any = Konstanz
+  val pair5 = zip -> city                         //> pair5  : functional.Pair = functional$$anonfun$main$1$Pair$1@3e110003
+  pair5._1                                        //> res30: Any = 78462
+  pair5._2                                        //> res31: Any = Konstanz
 
   val pair6 = 78462 -> "Konstanz"                 //> pair6  : (Int, java.lang.String) = (78462,Konstanz)
 
   val (key, value) = 78462 -> "Konstanz"          //> key  : Int = 78462
                                                   //| value  : java.lang.String = Konstanz
-  key                                             //> res26: Int = 78462
-  value                                           //> res27: java.lang.String = Konstanz
+  key                                             //> res32: Int = 78462
+  value                                           //> res33: java.lang.String = Konstanz
 
   val list = for (i <- 1 to 5) yield i            //> list  : scala.collection.immutable.IndexedSeq[Int] = Vector(1, 2, 3, 4, 5)
 }
