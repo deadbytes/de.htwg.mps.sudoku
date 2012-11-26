@@ -25,5 +25,8 @@ object L03_Functions {
     if (y == 0) x else gcd(y, x % y)              //> gcd: (x: Long, y: Long)Long
 
   gcd(96, 128)                                    //> res1: Long = 32
+  
+  // TODO Write a function that generates a list
+  // of all primes between two given numbers
 
 }

@@ -4,54 +4,70 @@ object L01_Expressions {
   3 + 4 * (2 - 3)                                 //> res1: Int = -1
   23 % 5                                          //> res2: Int(3) = 3
   3.5 * 9.4 + 6 / 4                               //> res3: Double = 33.9
+  
+  // Simple String operations
+  "Hello " + "World"                              //> res4: java.lang.String("Hello World") = Hello World
+  println("Hello " + "World")                     //> Hello World
 
   // Variables
   val width = 1024                                //> width  : Int = 1024
   var height = width * 9 / 16                     //> height  : Int = 576
   println(height)                                 //> 576
 
-  //width = 1440
+  //width = 1440  //reassignment on val is not allowed
   height = width * 3 / 4
-  height                                          //> res4: Int = 768
+  height                                          //> res5: Int = 768
 
   var inc = 5                                     //> inc  : Int = 5
   inc += 5
+  
+  val name ="Marko"                               //> name  : java.lang.String = Marko
+  val message = "Hello " + name                   //> message  : java.lang.String = Hello Marko
+  println(message)                                //> Hello Marko
+  
+  // TODO Calculate the width of a HD 1080 resolution
+  // It has a hight of 1080 and a ratio of 16:9
 
   // Bit operations
-  3 & 2 // logical and                            //> res5: Int(2) = 2
-  1 | 2 // logical or                             //> res6: Int(3) = 3
-  1 ^ 2 // logical xor                            //> res7: Int(3) = 3
-  1 << 2 // shift left                            //> res8: Int(4) = 4
+  3 & 2 // logical and                            //> res6: Int(2) = 2
+  1 | 2 // logical or                             //> res7: Int(3) = 3
+  1 ^ 2 // logical xor                            //> res8: Int(3) = 3
+  1 << 2 // shift left                            //> res9: Int(4) = 4
 
   // Boolean operations
-  true                                            //> res9: Boolean(true) = true
-  false                                           //> res10: Boolean(false) = false
-  1 > 2 // greater than                           //> res11: Boolean(false) = false
-  1 < 2 // less than                              //> res12: Boolean(true) = true
-  1 == 2 // equals                                //> res13: Boolean(false) = false
-  1 >= 2 // greater than or equal                 //> res14: Boolean(false) = false
-  1 != 2 // less than or equal                    //> res15: Boolean(true) = true
-  true || false // or                             //> res16: Boolean(true) = true
-  true && false // and                            //> res17: Boolean(false) = false
+  true                                            //> res10: Boolean(true) = true
+  false                                           //> res11: Boolean(false) = false
+  1 > 2 // greater than                           //> res12: Boolean(false) = false
+  1 < 2 // less than                              //> res13: Boolean(true) = true
+  1 == 2 // equals                                //> res14: Boolean(false) = false
+  1 >= 2 // greater than or equal                 //> res15: Boolean(false) = false
+  1 != 2 // less than or equal                    //> res16: Boolean(true) = true
+  true || false // or                             //> res17: Boolean(true) = true
+  true && false // and                            //> res18: Boolean(false) = false
 
   // If-Expression
-  if (1 > 2) 4 else 5 // greater than             //> res18: Int = 5
-  if (1 < 2) 6 else 7 // less than                //> res19: Int = 6
-  if (width == 1024 && height == 576) "PAL"       //> res20: Any = ()
-  if (width / height == 16 / 9) "PAL"             //> res21: Any = PAL
+  if (1 > 2) 4 else 5 // greater than             //> res19: Int = 5
+  if (1 < 2) 6 else 7 // less than                //> res20: Int = 6
+  if (width == 1024 && height == 576) "PAL"       //> res21: Any = ()
+  if (width / height == 16 / 9) "PAL"             //> res22: Any = PAL
   val resolution = if (width / height == 16 / 9) "PAL"
                                                   //> resolution  : Any = PAL
+  if (width / height == 16 / 9) "PAL" else "Unknown"
+                                                  //> res23: java.lang.String = PAL
+  
+  // TODO Develop an if-expression that can distinguish
+  // between SXGA(1280x1024), HD 720(16:9) and a HD 1080(16:9) resolution based on width, height and ratio
 
   // Loops
   var total1 = 18                                 //> total1  : Int = 18
   while (total1 < 17) total1 += 3
-  total1                                          //> res22: Int = 18
+  total1                                          //> res24: Int = 18
 
   var total2 = 18                                 //> total2  : Int = 18
   do {
     total2 += 3
   } while (total2 < 17)
-  total2                                          //> res23: Int = 21
+  total2                                          //> res25: Int = 21
 
   // find the greatest common divisor
   var x = 36                                      //> x  : Int = 36
@@ -62,7 +78,7 @@ object L01_Expressions {
     y = temp
   }
   println("gcd is" + y)                           //> gcd is9
-
+ 
   // For-Expression
   for (i <- 1 to 4) println("hi five")            //> hi five
                                                   //| hi five
@@ -85,6 +101,14 @@ object L01_Expressions {
                                                   //| l
                                                   //| l
                                                   //| o
-
+// TODO Write a for-loop that produces the following output
+// 12345678
+// 22345678
+// 33345678
+// 44445678
+// 55555678
+// 66666678
+// 77777778
+// 88888888
 
 }

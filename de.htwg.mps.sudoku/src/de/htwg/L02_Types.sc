@@ -21,4 +21,47 @@ object L02_Types {
   val helloW = "hello world"                      //> helloW  : java.lang.String = hello world
   val someEsc = "\\\"\'"                          //> someEsc  : java.lang.String = \"'
 
+  // List
+  val list: List[Int] = List(1, 2, 3, 4, 5)       //> list  : List[Int] = List(1, 2, 3, 4, 5)
+  val listi = List(1, 2, 3, 4, 5)                 //> listi  : List[Int] = List(1, 2, 3, 4, 5)
+  val lists = List("lines", "of", "actual", "information")
+                                                  //> lists  : List[java.lang.String] = List(lines, of, actual, information)
+  val empty:List[Int] = List()                    //> empty  : List[Int] = List()
+
+  listi.head                                      //> res0: Int = 1
+  listi.tail                                      //> res1: List[Int] = List(2, 3, 4, 5)
+  1 :: 2 :: 3 :: Nil                              //> res2: List[Int] = List(1, 2, 3)
+
+  // Array
+  val array: Array[Int] = Array(1, 2, 3, 4, 5)    //> array  : Array[Int] = Array(1, 2, 3, 4, 5)
+  val arrayi = Array(1, 2, 3, 4, 5)               //> arrayi  : Array[Int] = Array(1, 2, 3, 4, 5)
+  val arrays = Array("lines", "of", "actual", "information")
+                                                  //> arrays  : Array[java.lang.String] = Array(lines, of, actual, information)
+  arrayi(1)                                       //> res3: Int = 2
+  arrays(3)                                       //> res4: java.lang.String = information
+
+  // Vector
+  val vectori = Vector(1, 2, 3, 4, 5)             //> vectori  : scala.collection.immutable.Vector[Int] = Vector(1, 2, 3, 4, 5)
+
+  vectori(2)                                      //> res5: Int = 3
+  vectori :+ 6 :+ 7                               //> res6: scala.collection.immutable.Vector[Int] = Vector(1, 2, 3, 4, 5, 6, 7)
+                                                  //| 
+  vectori ++ Vector(6, 7)                         //> res7: scala.collection.immutable.Vector[Int] = Vector(1, 2, 3, 4, 5, 6, 7)
+                                                  //| 
+
+  val vectormix = Vector(1, "one", 'I')           //> vectormix  : scala.collection.immutable.Vector[Any] = Vector(1, one, I)
+
+  // Range
+  val r1 = Range(1, 5)                            //> r1  : scala.collection.immutable.Range = Range(1, 2, 3, 4)
+  val r2 = 1 to 5                                 //> r2  : scala.collection.immutable.Range.Inclusive = Range(1, 2, 3, 4, 5)
+  val r3 = 1 until 6                              //> r3  : scala.collection.immutable.Range = Range(1, 2, 3, 4, 5)
+  
+  //Transformations
+  vectori.toList                                  //> res8: List[Int] = List(1, 2, 3, 4, 5)
+  r1.toList                                       //> res9: List[Int] = List(1, 2, 3, 4)
+  r2.toArray                                      //> res10: Array[Int] = Array(1, 2, 3, 4, 5)
+  r3.toIndexedSeq                                 //> res11: scala.collection.immutable.IndexedSeq[Int] = Range(1, 2, 3, 4, 5)
+  
+  // TODO Create a List that contains all primes between 1 and 25
+
 }
