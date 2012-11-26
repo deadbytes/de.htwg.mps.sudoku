@@ -45,6 +45,11 @@ class SudokuController(var grid: Grid) extends Publisher {
     statusText="Set Cell ("+ row+","+col+") to "+value
     publish(new CellChanged)
   }
+  def showCandidates(row:Int, column:Int) ={
+    cell(row, column).showCandidates
+    statusText = "(" + row + ", " + column + ") = " + cell(row, column).toString + " " + available(row, column).toString
+    publish(new CellChanged)
+  }
   def solve = {
     val (success, g) = grid.solve
     grid = g  

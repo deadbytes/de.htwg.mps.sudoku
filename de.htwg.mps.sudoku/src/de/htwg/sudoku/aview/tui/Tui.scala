@@ -12,14 +12,14 @@ import swing._
 class Tui(var controller: SudokuController) extends Reactor {
   listenTo(controller)
   printTui
-    reactions += {
+  reactions += {
     case e: GridSizeChanged => printTui
     case e: CellChanged => printTui
   }
   def update = printTui
   def printTui = {
     println(controller.grid.toString)
-    println("Enter command: q-Quit s-Solve n-New v-Validate e,m,h-Load easy middle or hard, r-Random 1,4,9-Set Size, xy-Read Cell, xyz-Set Cell")
+    println("Enter command: q-Quit s-Solve n-New v-Validate e,m,h-easy/middle/hard r-Random .,+,#-SetSize x-Candidates xy-ReadCell xyz-SetCell")
   }
   def processInputLine(input: String) = {
     var continue = true
@@ -35,17 +35,17 @@ class Tui(var controller: SudokuController) extends Reactor {
       case "h" => controller.parseFromString(fromFile("resources/sudoku_hard.txt").mkString)
       case "r" => controller.createRandom
       case "v" => println("This Puzzle is " + (if (controller.valid) "" else "not") + " valid")
-      case "1" => controller.resize(1)
-      case "4" => controller.resize(4)
-      case "9" => controller.resize(9)
+      case "." => controller.resize(1)
+      case "+" => controller.resize(4)
+      case "#" => controller.resize(9)
       case _ => {
         input.toList.filter(c => c != ' ').map(c => c.toString.toInt) match {
-          case row :: column :: value :: Nil => {
-            controller.set(row, column, value)
-          }
+          case row :: column :: value :: Nil => controller.set(row, column, value)
           case row :: column :: Nil => {
+            controller.showCandidates(row, column)
             println("(" + row + ", " + column + ") = " + controller.cell(row, column).toString + " " + controller.available(row, column).toString)
           }
+          case highlight :: Nil => controller.highlight(highlight)
           case _ => println("False Input!!!")
         }
       }
