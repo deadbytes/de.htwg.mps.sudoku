@@ -1,7 +1,8 @@
 package de.htwg.sudoku.model
 
 trait Cell {
-  var showCandidates:Boolean
+  var isShowingCandidates:Boolean
+  def showCandidates:Unit
   def isGiven:Boolean
   def isSet:Boolean
   def isHighlighted:Boolean

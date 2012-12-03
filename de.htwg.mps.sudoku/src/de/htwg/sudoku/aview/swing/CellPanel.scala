@@ -1,6 +1,7 @@
 package de.htwg.sudoku.aview.swing
 
 import scala.swing._
+import javax.swing.table._
 import scala.swing.event._
 import de.htwg.sudoku.controller.SudokuController
 import de.htwg.sudoku.controller.CellChanged
@@ -10,60 +11,74 @@ class CellPanel(row: Int, column: Int, controller: SudokuController) extends Flo
   val givenCellColor = new Color(200, 200, 255)
   val cellColor = new Color(224, 224, 255)
   val highlightedCellColor = new Color(192, 255, 192)
-  
+
   def myCell = controller.cell(row, column)
 
-  val cellButton = new Button {
-    text = myCell.toString()
-    font = new Font("Verdana", 1, 22)
+  val label =
+    new Label {
+      text = " " + myCell.toString
+      font = new Font("Verdana", 1, 36)
+    }
+  val cell = new BoxPanel(Orientation.Vertical) {
+    contents += label
     preferredSize = new Dimension(51, 51)
-    opaque=true
     background = if (myCell.isGiven) givenCellColor else cellColor
+    listenTo(mouse.clicks)
+    listenTo(controller)
+    reactions += {
+      case e: CellChanged => {
+        label.text = " " + myCell.toString
+        repaint
+      }
+      case MouseClicked(src, pt, mod, clicks, pops) => {
+        controller.showCandidates(row, column)
+        repaint
+      }
+    }
   }
-  contents += cellButton
-  listenTo(cellButton)
-  cellButton.text = myCell.toString()
-  
+  contents += cell
+
+  val candidatelist = (1 to controller.gridSize).map {
+    (value =>
+      new Label {
+        text = if (controller.available(row, column).contains(value)) value.toString else " "
+        preferredSize = new Dimension(17, 17)
+        font = new Font("Verdana", 1, 9)
+        background = cellColor
+        listenTo(mouse.clicks)
+        listenTo(controller)
+        reactions += {
+          case e: CellChanged => {
+            text = if (controller.available(row, column).contains(value)) value.toString else " "
+            repaint
+          }
+          case MouseClicked(src, pt, mod, clicks, pops) => {
+            controller.set(row, column, value)
+            text = if (controller.available(row, column).contains(value)) value.toString else " "
+            repaint
+          }
+        }
+      })
+  }
+  val candidates = new GridPanel(controller.blockSize, controller.blockSize) {
+    contents ++= candidatelist
+  }
+
   def redraw = {
     contents.clear()
-    cellButton.text = myCell.toString()
-    cellButton.background = if (myCell.isGiven) givenCellColor
+    if ((myCell.isShowingCandidates || controller.showAllCandidates) && !myCell.isSet) {
+      candidates.background = if (myCell.isGiven) givenCellColor
       else if (myCell.isHighlighted) highlightedCellColor
       else cellColor
-    if ((myCell.showCandidates || controller.showAllCandidates) && !myCell.isSet)  { 
-      contents += candidatePanel
+      contents += candidates
     } else {
-      contents += cellButton
+      label.text = " " + myCell.toString()
+      cell.background = if (myCell.isGiven) givenCellColor
+      else if (myCell.isHighlighted) highlightedCellColor
+      else cellColor
+      contents += cell
     }
     repaint
   }
 
-  def candidatePanel = { 
-    new GridPanel(controller.blockSize, controller.blockSize) {
-      for (x <- 0 until controller.blockSize; y <- 1 to controller.blockSize) {
-        val value = x * controller.blockSize + y
-        val candidateButton = new Button {
-          text = if (controller.available(row, column).contains(value)) value.toString else " "
-          preferredSize = new Dimension(17, 17)
-          margin = new Insets(0, 0, 0, 0)
-          font = new Font("Verdana", 1, 9)
-          background = cellColor
-        }
-        contents += candidateButton
-        listenTo(candidateButton)
-        reactions += {
-          case ButtonClicked(source) =>
-            controller.set(row, column, source.text.toInt)
-            repaint
-        }
-      }
-    }
-  }
-
-  reactions += {
-    case ButtonClicked(source) =>
-      myCell.showCandidates = true
-      redraw
-      publish(new CellChanged)
-  }
 }

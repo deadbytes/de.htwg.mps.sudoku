@@ -2,9 +2,11 @@ package de.htwg.sudoku.model.impl
 
 import de.htwg.sudoku.model.{Cell=>CellTrait}
 
-class Cell(val value: Int, var showCandidates: Boolean = false) extends CellTrait {
+class Cell(val value: Int) extends CellTrait {
   var isHighlighted: Boolean = false
   var isGiven: Boolean = false
+  var isShowingCandidates = false
+  def showCandidates = isShowingCandidates=true
   def given=if (isSet) isGiven =true
   def notGiven = isGiven = false
   def highlight = isHighlighted = true

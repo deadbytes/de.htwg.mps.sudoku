@@ -21,7 +21,7 @@ class CellSpec extends SpecificationWithJUnit {
     }
 
     "not show their Candidates" in {
-      cell.showCandidates must beFalse
+      cell.isShowingCandidates must beFalse
     }
     
     "generate a String of the form ' '" in {
@@ -51,7 +51,7 @@ class CellSpec extends SpecificationWithJUnit {
     }
 
     "not show their Candidates" in {
-      cell.showCandidates must beFalse
+      cell.isShowingCandidates must beFalse
     }
     
     "generate a String of the form '2'" in {
