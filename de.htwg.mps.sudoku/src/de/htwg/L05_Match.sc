@@ -117,5 +117,19 @@ object L05_Match {
   // Write a parser for a command line tetris game
   // choose commands like j and k to move left and right.
   // print out the meaning of the command.
+  
+  def handleCommand(command:String) { command match {
+  	case "j" => println("left")
+  	case "k" => println("right")
+  	case " " => println("turn")
+  	case _ => println("try again")
+  	}
+  }                                               //> handleCommand: (command: String)Unit
+  
+  handleCommand(" ")                              //> turn
+  handleCommand("j")                              //> left
+  handleCommand("k")                              //> right
+  handleCommand("x")                              //> try again
+  
 
 }
