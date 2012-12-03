@@ -1,9 +1,10 @@
-package de.htwg.sudoku.model.fun
+package de.htwg.sudoku.model.impl
 
 import scala.math.sqrt
 import scala.util.Random
+import de.htwg.sudoku.model.{Grid=>GridTrait}
 
-class Grid(cells: Vector[Cell]) {
+class Grid(cells: Vector[Cell]) extends GridTrait{
   def this(blocksize: Int) = this(Vector.fill(blocksize * blocksize)(new Cell(0)))
 
   val size = sqrt(cells.size).toInt
@@ -61,11 +62,8 @@ class Grid(cells: Vector[Cell]) {
 
   def solved = cells.forall(cell => cell.isSet)
   def unsolvable = options.isEmpty
-  def solve: Pair[Boolean, Grid] = { Grid.steps = 0; solve(0) }
+  def solve: Pair[Boolean, Grid] =  solve(0) 
   def solve(index: Int): Pair[Boolean, Grid] = {
-    Grid.steps += 1
-    if (Grid.steps % 1000 == 0) print(".")
-    if (Grid.steps % 100000 == 0) println
     if (solved) return (true, this) else if (unsolvable) return (false, this) else {
       val (row, col) = indexToRowCol(index)
       if (cell(row, col).isSet) return solve(index + 1) else {
@@ -93,7 +91,4 @@ class Grid(cells: Vector[Cell]) {
     }
     g
   }
-}
-object Grid {
-  var steps = 0
 }

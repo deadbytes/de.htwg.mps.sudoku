@@ -1,4 +1,4 @@
-package de.htwg.sudoku.model.fun
+package de.htwg.sudoku.model.impl
 
 import org.specs2.mutable._
 
@@ -33,9 +33,9 @@ class GridSpec extends SpecificationWithJUnit {
         grid1.toString must be_==("\n+---+\n|   |\n+---+\n")
       }
     "highlight its cell" in {
-      cell0.highlighted must beFalse
+      cell0.isHighlighted must beFalse
       grid1.highlight(1)
-      cell0.highlighted must beTrue
+      cell0.isHighlighted must beTrue
     }
   }
   "A new Grid with 1 filled Cell" should {

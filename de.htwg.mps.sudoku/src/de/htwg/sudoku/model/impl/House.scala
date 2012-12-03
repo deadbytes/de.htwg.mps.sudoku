@@ -1,4 +1,4 @@
-package de.htwg.sudoku.model.fun
+package de.htwg.sudoku.model.impl
 
 class House(val cs: Vector[Cell]) {
   def cells(index: Int) = cs(index)

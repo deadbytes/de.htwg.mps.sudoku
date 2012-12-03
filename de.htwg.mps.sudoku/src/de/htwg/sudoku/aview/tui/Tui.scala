@@ -1,6 +1,6 @@
 package de.htwg.sudoku.aview.tui
 
-import de.htwg.sudoku.model.fun.Grid
+import de.htwg.sudoku.model.Grid
 import de.htwg.sudoku.controller.SudokuController
 import de.htwg.sudoku.controller.CellChanged
 import de.htwg.sudoku.controller.GridSizeChanged
@@ -26,8 +26,8 @@ class Tui(var controller: SudokuController) extends Reactor {
     input match {
       case "q" => continue = false
       case "s" => {
-        var (success, steps) = controller.solve;
-        if (success) println("Puzzle solved in " + steps + " steps") else println("This puzzle could not be solved!")
+        val success = controller.solve;
+        if (success) println("Puzzle solved") else println("This puzzle could not be solved!")
       }
       case "n" => controller.reset
       case "e" => controller.parseFromString(fromFile("resources/sudoku_easy.txt").mkString)

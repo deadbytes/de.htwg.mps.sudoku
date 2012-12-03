@@ -28,7 +28,7 @@ class CellPanel(row: Int, column: Int, controller: SudokuController) extends Flo
     contents.clear()
     cellButton.text = myCell.toString()
     cellButton.background = if (myCell.isGiven) givenCellColor
-      else if (myCell.highlighted) highlightedCellColor
+      else if (myCell.isHighlighted) highlightedCellColor
       else cellColor
     if ((myCell.showCandidates || controller.showAllCandidates) && !myCell.isSet)  { 
       contents += candidatePanel

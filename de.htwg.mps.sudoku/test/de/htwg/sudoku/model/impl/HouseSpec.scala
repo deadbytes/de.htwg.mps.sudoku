@@ -1,4 +1,4 @@
-package de.htwg.sudoku.model.fun
+package de.htwg.sudoku.model.impl
 
 import org.specs2.mutable._
 

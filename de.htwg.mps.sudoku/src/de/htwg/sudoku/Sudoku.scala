@@ -1,6 +1,6 @@
 package de.htwg.sudoku
 
-import de.htwg.sudoku.model.fun.Grid
+import de.htwg.sudoku.model.impl.Grid
 import de.htwg.sudoku.controller.SudokuController
 import de.htwg.sudoku.aview.tui.Tui
 import de.htwg.sudoku.aview.swing.SwingGui

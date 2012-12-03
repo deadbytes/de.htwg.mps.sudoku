@@ -1,7 +1,7 @@
 package de.htwg.sudoku.controller
 
 import de.htwg.util.Observable
-import de.htwg.sudoku.model.fun.Grid
+import de.htwg.sudoku.model.Grid
 import scala.swing.event.Event
 import scala.swing.Publisher
 
@@ -36,7 +36,7 @@ class SudokuController(var grid: Grid) extends Publisher {
     publish(new CellChanged)
   }
   def resize(newSize: Int) = {
-    grid = new Grid(newSize)
+    grid = new de.htwg.sudoku.model.impl.Grid(newSize)
     statusText="New Sudoku of size "+newSize
     publish(new GridSizeChanged(newSize))
   }
@@ -53,9 +53,9 @@ class SudokuController(var grid: Grid) extends Publisher {
   def solve = {
     val (success, g) = grid.solve
     grid = g  
-    statusText = if(success) "Solved Sudoku in "+ Grid.steps +" steps" else "Sudoku can not be solved"
+    statusText = if(success) "Solved Sudoku" else "Sudoku can not be solved"
     publish(new CellChanged)
-    (success, Grid.steps)
+    success
   }
   def valid = grid.valid
   def showAllCandidates=false
