@@ -36,7 +36,6 @@ class CellPanel(row: Int, column: Int, controller: SudokuController) extends Flo
       }
     }
   }
-  contents += cell
 
   val candidatelist = (1 to controller.gridSize).map {
     (value =>
@@ -61,24 +60,26 @@ class CellPanel(row: Int, column: Int, controller: SudokuController) extends Flo
       })
   }
   val candidates = new GridPanel(controller.blockSize, controller.blockSize) {
+    setBackground(this)
     contents ++= candidatelist
   }
+  contents += candidates 
 
   def redraw = {
     contents.clear()
     if ((myCell.isShowingCandidates || controller.showAllCandidates) && !myCell.isSet) {
-      candidates.background = if (myCell.isGiven) givenCellColor
-      else if (myCell.isHighlighted) highlightedCellColor
-      else cellColor
+      setBackground(candidates)
       contents += candidates
     } else {
       label.text = " " + myCell.toString()
-      cell.background = if (myCell.isGiven) givenCellColor
-      else if (myCell.isHighlighted) highlightedCellColor
-      else cellColor
+      setBackground(cell)
       contents += cell
     }
     repaint
   }
+  
+  def setBackground(p:Panel) = p.background = if (myCell.isGiven) givenCellColor
+      else if (myCell.isHighlighted) highlightedCellColor
+      else cellColor
 
 }
