@@ -19,10 +19,12 @@ class CellPanel(row: Int, column: Int, controller: SudokuController) extends Flo
       text = " " + myCell.toString
       font = new Font("Verdana", 1, 36)
     }
+
   val cell = new BoxPanel(Orientation.Vertical) {
     contents += label
     preferredSize = new Dimension(51, 51)
     background = if (myCell.isGiven) givenCellColor else cellColor
+    border = Swing.BeveledBorder(Swing.Raised)
     listenTo(mouse.clicks)
     listenTo(controller)
     reactions += {
@@ -44,6 +46,7 @@ class CellPanel(row: Int, column: Int, controller: SudokuController) extends Flo
         preferredSize = new Dimension(17, 17)
         font = new Font("Verdana", 1, 9)
         background = cellColor
+        border = Swing.BeveledBorder(Swing.Raised)
         listenTo(mouse.clicks)
         listenTo(controller)
         reactions += {
@@ -63,7 +66,7 @@ class CellPanel(row: Int, column: Int, controller: SudokuController) extends Flo
     setBackground(this)
     contents ++= candidatelist
   }
-  contents += candidates 
+  contents += candidates
 
   def redraw = {
     contents.clear()
@@ -77,9 +80,9 @@ class CellPanel(row: Int, column: Int, controller: SudokuController) extends Flo
     }
     repaint
   }
-  
-  def setBackground(p:Panel) = p.background = if (myCell.isGiven) givenCellColor
-      else if (myCell.isHighlighted) highlightedCellColor
-      else cellColor
+
+  def setBackground(p: Panel) = p.background = if (myCell.isGiven) givenCellColor
+  else if (myCell.isHighlighted) highlightedCellColor
+  else cellColor
 
 }
