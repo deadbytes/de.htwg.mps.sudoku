@@ -2,7 +2,7 @@ package de.htwg.sudoku.model.impl
  
 import org.specs2.mutable._
 
-class CellSpec extends SpecificationWithJUnit {
+class CellSpec extends Specification {
   "A new Cell set to 0 " should {
     val cell = new Cell(0)
     
