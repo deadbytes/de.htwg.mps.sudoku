@@ -1,6 +1,6 @@
 # Sudoku in Scala
 
-This project is used as a sample project and architecture for the lecture *Software Engineering* at the University of Applied Science in Konstanz. 
+This project is used as a sample project and architecture for the lecture *Modern Programming Languages: Scala* at the University of Applied Science in Konstanz. 
 
 The project evolves over the course of the lecture from a few simple classes to a full blown Model-View-Controller architecture with layers, components, dependency injection. 
 
