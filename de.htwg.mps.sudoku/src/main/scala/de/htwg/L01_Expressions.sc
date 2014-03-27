@@ -1,12 +1,12 @@
 object L01_Expressions {
   // Simple Expressions
-  1 + 2                                           //> res0: Int(3) = 3
+  1 + 2 + 3                                       //> res0: Int = 6
   3 + 4 * (2 - 3)                                 //> res1: Int = -1
   23 % 5                                          //> res2: Int(3) = 3
   3.5 * 9.4 + 6 / 4                               //> res3: Double = 33.9
   
   // Simple String operations
-  "Hello " + "World"                              //> res4: java.lang.String("Hello World") = Hello World
+  "Hello " + "World"                              //> res4: String("Hello World") = Hello World
   println("Hello " + "World")                     //> Hello World
 
   // Variables
@@ -21,8 +21,8 @@ object L01_Expressions {
   var inc = 5                                     //> inc  : Int = 5
   inc += 5
   
-  val name ="Marko"                               //> name  : java.lang.String = Marko
-  val message = "Hello " + name                   //> message  : java.lang.String = Hello Marko
+  val name ="Marko"                               //> name  : String = Marko
+  val message = "Hello " + name                   //> message  : String = Hello Marko
   println(message)                                //> Hello Marko
   
   // TODO Calculate the width of a HD 1080 resolution
@@ -54,7 +54,7 @@ object L01_Expressions {
   val resolution = if (width / height == 16 / 9) "PAL"
                                                   //> resolution  : Any = PAL
   if (width / height == 16 / 9) "PAL" else "Unknown"
-                                                  //> res23: java.lang.String = PAL
+                                                  //> res23: String = PAL
   
   // TODO Develop an if-expression that can distinguish
   // between SXGA(1280x1024), HD 720(16:9) and a HD 1080(16:9) resolution based on width, height and ratio
@@ -63,7 +63,7 @@ val w = 1080*16/9                                 //> w  : Int = 1920
 if (w == 1280 && h == 1024) "SXGA" else
 	if (h == 1080 && w == 1080*16/9) "HD 1080" else
 		if (h ==720 && w == 720*16/9) "HD 720" else
-			"unknown"                 //> res24: java.lang.String = HD 1080
+			"unknown"                 //> res24: String = HD 1080
   // Loops
   var total1 = 18                                 //> total1  : Int = 18
   while (total1 < 17) total1 += 3

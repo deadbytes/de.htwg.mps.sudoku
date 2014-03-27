@@ -1,13 +1,13 @@
 object L04_Classes {
 1+2                                               //> res0: Int(3) = 3
-2+3                                               //> res1: Int(5) = 5
+2+4                                               //> res1: Int(6) = 6
   //Classes
   class Point1 {
     var x = 0
     var y = 0
   }
 
-  val p1 = new Point1                             //> p1  : L04_Classes.Point1 = L04_Classes$$anonfun$main$1$Point1$1@fa3ac1
+  val p1 = new Point1                             //> p1  : L04_Classes.Point1 = L04_Classes$$anonfun$main$1$Point1$1@2dec8909
   p1.x = 3
   p1.y = 4
 
@@ -19,7 +19,7 @@ object L04_Classes {
     val y = iy
   }
 
-  val p2 = new Point2(3, 4)                       //> p2  : L04_Classes.Point2 = L04_Classes$$anonfun$main$1$Point2$1@1ded0fd
+  val p2 = new Point2(3, 4)                       //> p2  : L04_Classes.Point2 = L04_Classes$$anonfun$main$1$Point2$1@15f66cff
   
    // Parameter as public fields
   class Point3(val x: Int, val y: Int)
@@ -27,16 +27,17 @@ object L04_Classes {
   // Default parameter
   class Point3D(val x:Int, val y:Int, z:Int=0)
   
-  val p3d1 = new Point3D(4,7,3)                   //> p3d1  : L04_Classes.Point3D = L04_Classes$$anonfun$main$1$Point3D$2@7a84e4
-  val p3d2 = new Point3D(4,7)                     //> p3d2  : L04_Classes.Point3D = L04_Classes$$anonfun$main$1$Point3D$2@1430b5c
+  val p3d1 = new Point3D(4,7,3)                   //> p3d1  : L04_Classes.Point3D = L04_Classes$$anonfun$main$1$Point3D$2@11bbf1ca
+                                                  //| 
+  val p3d2 = new Point3D(4,7)                     //> p3d2  : L04_Classes.Point3D = L04_Classes$$anonfun$main$1$Point3D$2@73901437
                                                   //| 
   
   // Named parameter
   class PointN(val row:Int, val col:Int)
   
-  val pn1 = new PointN(row =5, col =8)            //> pn1  : L04_Classes.PointN = L04_Classes$$anonfun$main$1$PointN$1@c2a132
+  val pn1 = new PointN(row =5, col =8)            //> pn1  : L04_Classes.PointN = L04_Classes$$anonfun$main$1$PointN$1@5464ea66
   println("row = " +pn1.row)                      //> row = 5
-  val pn2 = new PointN(col = 8, row = 5)          //> pn2  : L04_Classes.PointN = L04_Classes$$anonfun$main$1$PointN$1@1e51060
+  val pn2 = new PointN(col = 8, row = 5)          //> pn2  : L04_Classes.PointN = L04_Classes$$anonfun$main$1$PointN$1@2d58f9d3
   println("row = " +pn2.row)                      //> row = 5
   
   // Methods for Classes
@@ -46,9 +47,9 @@ object L04_Classes {
     }
   }
 
-  val p31 = new Point4(3, 4)                      //> p31  : L04_Classes.Point4 = L04_Classes$$anonfun$main$1$Point4$1@b166b5
-  val p32 = new Point4(7, 2)                      //> p32  : L04_Classes.Point4 = L04_Classes$$anonfun$main$1$Point4$1@cdfc9c
-  val p33 = p31.vectorAdd(p32)                    //> p33  : L04_Classes.Point4 = L04_Classes$$anonfun$main$1$Point4$1@1837697
+  val p31 = new Point4(3, 4)                      //> p31  : L04_Classes.Point4 = L04_Classes$$anonfun$main$1$Point4$1@65b60280
+  val p32 = new Point4(7, 2)                      //> p32  : L04_Classes.Point4 = L04_Classes$$anonfun$main$1$Point4$1@105e55ab
+  val p33 = p31.vectorAdd(p32)                    //> p33  : L04_Classes.Point4 = L04_Classes$$anonfun$main$1$Point4$1@214a55f2
   println(p33.x, p33.y)                           //> (10,6)
 
   // Methods with more flexible names
@@ -102,13 +103,13 @@ object L04_Classes {
  }
  
  val xga = new Resolution(width = 1024, height = 768, name= "XGA")
-                                                  //> xga  : L04_Classes.Resolution = L04_Classes$$anonfun$main$1$Resolution$1@e1
-                                                  //| 02dc
+                                                  //> xga  : L04_Classes.Resolution = L04_Classes$$anonfun$main$1$Resolution$1@52
+                                                  //| 39443f
  xga.pixel                                        //> res4: Int = 786432
  xga.ratio                                        //> res5: Double = 1.3333333333333333
  
  val hd1080 = new Resolution (1920, 1080, "hd1080")
                                                   //> hd1080  : L04_Classes.Resolution = L04_Classes$$anonfun$main$1$Resolution$1
-                                                  //| @82c01f
+                                                  //| @2dafae45
  xga < hd1080                                     //> res6: Boolean = true
 }
