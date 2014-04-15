@@ -27,7 +27,7 @@ class Tui(var controller: SudokuController) extends Reactor {
       case "q" => continue = false
       case "s" => {
         val success = controller.solve;
-        if (success) println("Puzzle solved") else println("This puzzle could not be solved!")
+        println(controller.statusText)
       }
       case "n" => controller.reset
       case "e" => controller.parseFromString(fromFile("resources/sudoku_easy.txt").mkString)

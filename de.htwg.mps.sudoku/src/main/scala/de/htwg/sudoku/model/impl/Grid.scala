@@ -3,6 +3,9 @@ package de.htwg.sudoku.model.impl
 import scala.math.sqrt
 import scala.util.Random
 import de.htwg.sudoku.model.{Grid=>GridTrait}
+import scala.concurrent._
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration._
 
 class Grid(cells: Vector[Cell]) extends GridTrait{
   def this(blocksize: Int) = this(Vector.fill(blocksize * blocksize)(new Cell(0)))
@@ -62,7 +65,19 @@ class Grid(cells: Vector[Cell]) extends GridTrait{
 
   def solved = cells.forall(cell => cell.isSet)
   def unsolvable = options.isEmpty
-  def solve: Pair[Boolean, Grid] =  solve(0) 
+  def solve: Pair[Boolean, Grid] =  {
+    val p = Promise[(Boolean,Grid)]()
+    val grids = (for(i <- 1 to size) yield deepCopy).toList
+    for (g <- grids){
+      Future(g.solve(0)) onComplete (p.tryComplete(_))
+    }
+    Await.result(p.future, Duration(2, MINUTES))
+  }
+  def deepCopy = {
+    val copiedCells = for (c <- cells) yield new Cell(c.value, c.isGiven)
+    new Grid(copiedCells)
+  }
+ 
   def solve(index: Int): Pair[Boolean, Grid] = {
     if (solved) return (true, this) else if (unsolvable) return (false, this) else {
       val (row, col) = indexToRowCol(index)

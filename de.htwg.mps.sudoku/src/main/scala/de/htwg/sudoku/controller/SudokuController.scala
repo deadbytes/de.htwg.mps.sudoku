@@ -4,6 +4,7 @@ import de.htwg.util.Observable
 import de.htwg.sudoku.model.Grid
 import scala.swing.event.Event
 import scala.swing.Publisher
+import java.util.concurrent.TimeoutException
 
 case class CellChanged extends Event 
 case class GridSizeChanged(newSize:Int) extends Event
@@ -51,11 +52,22 @@ class SudokuController(var grid: Grid) extends Publisher {
     publish(new CellChanged)
   }
   def solve = {
-    val (success, g) = grid.solve
-    grid = g  
-    statusText = if(success) "Solved Sudoku" else "Sudoku can not be solved"
-    publish(new CellChanged)
-    success
+    var result = false
+    try{    
+      val (success, g) = grid.solve
+      grid = g  
+      statusText = if(success) "Solved Sudoku" else "Sudoku can not be solved"
+      result = success
+    }catch{
+      case e:TimeoutException => {
+        statusText="Sudoku can not be solved in time"
+        result = false
+      }
+    }finally{
+      publish(new CellChanged) 
+    }
+    result
+
   }
   def valid = grid.valid
   def showAllCandidates=false

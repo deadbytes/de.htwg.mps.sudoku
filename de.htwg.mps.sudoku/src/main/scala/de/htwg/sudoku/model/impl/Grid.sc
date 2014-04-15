@@ -29,7 +29,7 @@ object GridWS {
                                                   //| |     |     |
                                                   //| +-----+-----+
                                                   //| 
-  grid2.toString                                  //> res4: java.lang.String = "
+  grid2.toString                                  //> res4: String = "
                                                   //| +-----+-----+
                                                   //| | 1   |     |
                                                   //| |     |     |
@@ -107,11 +107,11 @@ object GridWS {
                                                   //| )
   grid3.solve                                     //> res25: (Boolean, de.htwg.sudoku.model.impl.Grid) = (true,
                                                   //| +-----+-----+
-                                                  //| | 1 3 | 4 2 |
-                                                  //| | 4 2 | 3 1 |
+                                                  //| | 1 4 | 3 2 |
+                                                  //| | 3 2 | 4 1 |
                                                   //| +-----+-----+
-                                                  //| | 3 1 | 2 4 |
-                                                  //| | 2 4 | 1 3 |
+                                                  //| | 2 3 | 1 4 |
+                                                  //| | 4 1 | 2 3 |
                                                   //| +-----+-----+
                                                   //| )
   val grid4 = new Grid(9)                         //> grid4  : de.htwg.sudoku.model.impl.Grid = 
@@ -131,18 +131,30 @@ object GridWS {
                                                   //| 
   grid4.solve                                     //> res26: (Boolean, de.htwg.sudoku.model.impl.Grid) = (true,
                                                   //| +-------+-------+-------+
-                                                  //| | 6 3 5 | 4 1 9 | 8 7 2 |
-                                                  //| | 1 7 9 | 3 2 8 | 4 5 6 |
-                                                  //| | 4 2 8 | 7 5 6 | 1 9 3 |
+                                                  //| | 7 4 8 | 3 9 6 | 5 1 2 |
+                                                  //| | 3 1 2 | 5 4 7 | 8 9 6 |
+                                                  //| | 9 5 6 | 1 2 8 | 4 3 7 |
                                                   //| +-------+-------+-------+
-                                                  //| | 3 9 6 | 1 4 7 | 2 8 5 |
-                                                  //| | 5 8 4 | 9 6 2 | 7 3 1 |
-                                                  //| | 7 1 2 | 8 3 5 | 6 4 9 |
+                                                  //| | 4 3 1 | 2 5 9 | 7 6 8 |
+                                                  //| | 2 6 7 | 8 3 4 | 1 5 9 |
+                                                  //| | 5 8 9 | 7 6 1 | 3 2 4 |
                                                   //| +-------+-------+-------+
-                                                  //| | 9 6 3 | 2 7 4 | 5 1 8 |
-                                                  //| | 8 5 7 | 6 9 1 | 3 2 4 |
-                                                  //| | 2 4 1 | 5 8 3 | 9 6 7 |
+                                                  //| | 6 2 3 | 4 7 5 | 9 8 1 |
+                                                  //| | 1 9 4 | 6 8 3 | 2 7 5 |
+                                                  //| | 8 7 5 | 9 1 2 | 6 4 3 |
                                                   //| +-------+-------+-------+
                                                   //| )
+                                                  
+	//Compare times on solve for single and concurrent execution
+//	val grids = (for(i <- 1 to 5) yield new Grid(9).createRandom(9)).toList
+//	val grids2 = grids map(_.deepCopy)
+//	def getTime(f: => (Boolean, Grid)) = {
+//		val start = System.currentTimeMillis()
+//		f
+//		val end = System.currentTimeMillis()
+//		end - start
+//	}
+//	grids.map(g => getTime(g.solve(0)))
+//	grids2.map(g => getTime(g.solve))
 
 }
